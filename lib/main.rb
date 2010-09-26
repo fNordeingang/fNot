@@ -22,6 +22,10 @@ bot = Cinch::Bot.new do
       bot.logger.debug "#{m.user.nick} has no messages"
     end
   end
+  
+  on :message, /^!notify$/ do |m|
+    m.reply "#{m.user.nick}: !notify <nickname> \"<nachricht>\""
+  end
 
   on :message, /^!notify (.*) "(.*)"$/ do |m,nick,msg|
     @notifications[nick] = {:from => m.user.nick, :msg => msg}
