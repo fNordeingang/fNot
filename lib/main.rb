@@ -25,7 +25,7 @@ bot = Cinch::Bot.new do
 
   on :message, /^!notify (.*) "(.*)"$/ do |m,nick,msg|
     @notifications[nick] = {:from => m.user.nick, :msg => msg}
-    m.reply "#{m.user.nick}: #{nick} wird benachrichtigt sobald ich von ihm höre"
+    m.reply "#{m.user.nick}: #{nick} wird benachrichtigt sobald ich von ihm hoere"
   end
 end
 
