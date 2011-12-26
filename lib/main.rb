@@ -1,14 +1,15 @@
 # coding: utf-8
 require "rubygems"
 require "bundler/setup"
-
+require "net/http"
 require "cinch"
+
 
 bot = Cinch::Bot.new do
   configure do |c|
     c.server = "irc.freenode.org"
     c.channels = ["#fnordeingang"]
-    c.nick = "fnot"
+    c.nick = "fNot"
     @notifications = {}
   end
 
@@ -30,6 +31,15 @@ bot = Cinch::Bot.new do
   on :message, /^!notify (.*) "(.*)"$/ do |m,nick,msg|
     @notifications[nick] = {:from => m.user.nick, :msg => msg}
     m.reply "#{m.user.nick}: #{nick} wird benachrichtigt sobald ich von ihm hoere"
+  end
+  
+  on :message, /^!status$/ do |m,nick,msg|
+    response = Net::HTTP.get_response("status.fnordeingang.de","/")
+    if response.body =~ /true/
+      m.reply "fNordeingang is open!"
+    else
+      m.reply "fNordeingang is closed :("
+    end
   end
 end
 
